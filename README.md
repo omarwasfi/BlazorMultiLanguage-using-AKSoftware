@@ -1,0 +1,2 @@
+# BlazorMultiLanguage using AKSoftware
+ 
