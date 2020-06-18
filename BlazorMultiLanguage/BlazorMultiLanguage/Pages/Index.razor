@@ -1,0 +1,49 @@
+﻿@page "/"
+@inject ILanguageContainerService  languageContainer
+@inject BlazorMultiLanguage.Services.IRefreshUI RefreshUI
+
+<h1>@languageContainer.Keys["Hello"]</h1>
+
+<h1>Current culture: @Lan</h1>
+
+<button @onclick="Show"> Show Culture </button>
+
+<button @onclick="Change"> change Culture </button>
+
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<div>
+    @if (languageContainer.CurrentCulture.ToString() == "ar-EG")
+    {
+        <h1>arabic</h1>
+
+    }
+    else
+    {
+        <h2>english</h2>
+
+    }
+</div>
+
+@code{
+    string Lan = "";
+
+
+    void RefreshMe()
+    {
+        StateHasChanged();
+    }
+
+    void Show()
+    {
+        RefreshUI.RefreshRequested += RefreshMe;
+
+        Lan = languageContainer.CurrentCulture.ToString();
+    }
+
+    void Change()
+    {
+        languageContainer.SetLanguage(System.Globalization.CultureInfo.GetCultureInfo("ar-EG"));
+    }
+}

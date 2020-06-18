@@ -1,0 +1,73 @@
+﻿@inject ILanguageContainerService  languageContainer
+@inject BlazorMultiLanguage.Services.IRefreshUI RefreshUI
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorMultiLanguage</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+        @if (languageContainer.CurrentCulture.ToString() == "ar-EG")
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link"  @onclick="ChangeToEnglish">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> arabic
+                </NavLink>
+            </li>
+
+        }
+        else
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" @onclick="ChangeToArabic">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> english
+                </NavLink>
+            </li>
+
+        }
+    </ul>
+</div>
+
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+
+    void ChangeToArabic()
+    {
+        languageContainer.SetLanguage(System.Globalization.CultureInfo.GetCultureInfo("ar-EG"));
+        RefreshUI.CallRequestRefresh();
+    }
+    void ChangeToEnglish()
+    {
+        languageContainer.SetLanguage(System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+        RefreshUI.CallRequestRefresh();
+
+    }
+}
