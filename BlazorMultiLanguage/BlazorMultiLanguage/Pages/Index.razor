@@ -30,9 +30,9 @@
     string Lan = "";
 
 
-    void RefreshMe()
+    async void RefreshMe()
     {
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     void Show()
